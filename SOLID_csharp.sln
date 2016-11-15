@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6456C7D3-4B1F-4FF9-9565-68A7716128D1}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SRP", "src\SRP\SRP.xproj", "{8ECE4F9A-DD46-4E5C-B194-5C36DA45E3B8}"
