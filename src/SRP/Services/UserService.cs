@@ -1,4 +1,5 @@
-﻿using MailKit;
+﻿using System.Collections.Generic;
+using MailKit;
 using MimeKit;
 using SOLID_csharp.Exceptions;
 using SOLID_csharp.Interfaces;
@@ -25,7 +26,11 @@ namespace SOLID_csharp.Services
             }
             var user = new User(email, password);
             _database.Save(user);
-            var message = new MimeMessage("mysite@nowhere.com", email) {Subject = "Hello World!"};
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("mysite@nowhere.com"));
+            message.To.Add(new MailboxAddress(email));
+            message.Subject = "Hello World!";
             _mailTransport.Send(message);
         }
     }

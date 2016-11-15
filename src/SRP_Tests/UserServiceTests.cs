@@ -1,6 +1,9 @@
 ﻿using MailKit;
+using MimeKit;
 using NSubstitute;
+using SOLID_csharp.Exceptions;
 using SOLID_csharp.Interfaces;
+using SOLID_csharp.Models;
 using SOLID_csharp.Services;
 using Xunit;
 
@@ -8,24 +11,44 @@ namespace SRP_Tests
 {
     public class UserServiceTests
     {
-        [Fact]
-        public void Register_StateUnderTest_ExpectedBehavior()
+        private readonly UserService _userService;
+        private readonly IAmTheDataBase _database;
+        private readonly IMailTransport _mailTransport;
+
+        public UserServiceTests()
         {
-            // Arrange
-            var mailTransport = Substitute.For<IMailTransport>();
-            var database = Substitute.For<IAmTheDataBase>();
+            _mailTransport = Substitute.For<IMailTransport>();
+            _database = Substitute.For<IAmTheDataBase>();
 
-            var userService = new UserService(mailTransport, database);
+            _userService = new UserService(_mailTransport, _database);
+        }
 
-            // Act
-            const string email = "some@domain.net";
+        [Fact]
+        public void Register_InvalidEmail_ThrowsException()
+        {
+            const string invalidEmail = "invalid";
             const string password = "secret";
 
-            userService.Register(email, password);
+            Assert.Throws<ValidationException>(() =>
+            {
+                _userService.Register(invalidEmail, password);
+            });
+        }
+
+        [Fact]
+        public void Register_ValidEmail_SavesUserAndSendsMail()
+        {
+            const string validEmail = "valid@email.net";
+            const string password = "secret";
+
+            _userService.Register(validEmail, password);
 
             // Assert
-
-            // Continue here...
+            // Database should save
+            _database.Received(1).Save(Arg.Any<User>());
+            // Mail should be sent
+            _mailTransport.Received(1)
+                .Send(Arg.Is<MimeMessage>(message => ((MailboxAddress) message.To[0]).Address == validEmail));
         }
     }
 }
