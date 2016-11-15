@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "MailKit": "1.10.0"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+    }
+  }
+}
