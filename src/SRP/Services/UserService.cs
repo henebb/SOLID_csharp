@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using MailKit;
-using MimeKit;
 using SOLID_csharp.Exceptions;
 using SOLID_csharp.Interfaces;
 using SOLID_csharp.Models;
@@ -9,29 +8,26 @@ namespace SOLID_csharp.Services
 {
     public class UserService
     {
-        private readonly IMailTransport _mailTransport;
+        private readonly IEmailService _emailService;
         private readonly IAmTheDataBase _database;
 
-        public UserService(IMailTransport mailTransport, IAmTheDataBase database)
+        public UserService(IEmailService emailService, IAmTheDataBase database)
         {
-            _mailTransport = mailTransport;
+            _emailService = emailService;
             _database = database;
         }
 
         public void Register(string email, string password)
         {
-            if (!email.Contains("@"))
+            if (!_emailService.ValidateEmail(email))
             {
-                throw new ValidationException("Email is not an email!");
+                return;
             }
+
             var user = new User(email, password);
             _database.Save(user);
 
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("mysite@nowhere.com"));
-            message.To.Add(new MailboxAddress(email));
-            message.Subject = "Hello World!";
-            _mailTransport.Send(message);
+            _emailService.SendMail(email);
         }
     }
 }

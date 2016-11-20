@@ -13,33 +13,22 @@ namespace SRP_Tests
     {
         private readonly UserService _userService;
         private readonly IAmTheDataBase _database;
-        private readonly IMailTransport _mailTransport;
+        private readonly IEmailService _emailService;
 
         public UserServiceTests()
         {
-            _mailTransport = Substitute.For<IMailTransport>();
+            _emailService = Substitute.For<IEmailService>();
             _database = Substitute.For<IAmTheDataBase>();
 
-            _userService = new UserService(_mailTransport, _database);
+            _userService = new UserService(_emailService, _database);
         }
 
         [Fact]
-        public void Register_InvalidEmail_ThrowsException()
-        {
-            const string invalidEmail = "invalid";
-            const string password = "secret";
-
-            Assert.Throws<ValidationException>(() =>
-            {
-                _userService.Register(invalidEmail, password);
-            });
-        }
-
-        [Fact]
-        public void Register_ValidEmail_SavesUserAndSendsMail()
+        public void Register_WithEmailAndPassword_SavesUserAndSendsMail()
         {
             const string validEmail = "valid@email.net";
             const string password = "secret";
+            _emailService.ValidateEmail(validEmail).Returns(true);
 
             _userService.Register(validEmail, password);
 
@@ -47,8 +36,7 @@ namespace SRP_Tests
             // Database should save
             _database.Received(1).Save(Arg.Any<User>());
             // Mail should be sent
-            _mailTransport.Received(1)
-                .Send(Arg.Is<MimeMessage>(message => ((MailboxAddress) message.To[0]).Address == validEmail));
+            _emailService.Received(1).SendMail(validEmail);
         }
     }
 }
