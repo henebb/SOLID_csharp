@@ -50,22 +50,22 @@ namespace OCP
 
         private void ProcessDirective(string line)
         {
-            _actions.AppendLine($"{nameof(ProcessDirective)},line:{line}");
+            _actions.AppendLine($"ProcessDirective,line:{line}");
         }
 
         private void RunCustomCommand(string line, StringBuilder scope)
         {
-            _actions.AppendLine($"{nameof(RunCustomCommand)},line:{line},scope:{scope}");
+            _actions.AppendLine($"RunCustomCommand,line:{line},scope:{scope}");
         }
 
         private void ExecuteScope(StringBuilder scope)
         {
-            _actions.AppendLine($"{nameof(ExecuteScope)},scope:{scope}");
+            _actions.AppendLine($"ExecuteScope,scope:{scope}");
         }
 
         private void AddToVariables(string line)
         {
-            _actions.AppendLine($"{nameof(AddToVariables)},line:{line}");
+            _actions.AppendLine($"AddToVariables,line:{line}");
         }
 
         private readonly StringBuilder _actions = new StringBuilder();
