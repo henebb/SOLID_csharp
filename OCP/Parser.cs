@@ -33,10 +33,7 @@ namespace OCP
                             RunCustomCommand(line, scope);
                         else if (line == "!single_line_directive")
                             ProcessDirective(line);
-
-                        scope = new StringBuilder();
                         break;
-
                     default:
                         // No processing directive, i.e. add the "line" 
                         // to the current scope.
