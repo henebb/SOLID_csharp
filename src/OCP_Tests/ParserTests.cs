@@ -1,4 +1,7 @@
-﻿using OCP;
+﻿using System.Text;
+using OCP;
+using OCP.CommandHandlers;
+using OCP.Processors;
 using Shouldly;
 using Xunit;
 
@@ -19,7 +22,19 @@ Paragraph 1
 ";
 
             // Act
-            var parser = new Parser();
+            var parser = new Parser
+            {
+                DefaultProcessor = new AppendLineToScopeProcessor {DefaultCommandHandler = new AppendLineToScopeCommandHandler()}
+            };
+
+            var dollarProcessor = new DollarProcessor {DefaultCommandHandler = new AddToVariableCommandHandler()};
+            parser.AddProcessor('$', dollarProcessor);
+            var exclamationProcessor = new ExclamationProcessor();
+            exclamationProcessor.AddCommandHandler("!execute", new ExecuteCommandHandler());
+            exclamationProcessor.AddCommandHandler("!custom_command", new CustomCommandHandler());
+            exclamationProcessor.AddCommandHandler("!single_line_directive", new SingleLineDirectiveCommandHandler());
+            parser.AddProcessor('!', exclamationProcessor);
+            
             parser.Parse(scriptText);
 
             // Assert
