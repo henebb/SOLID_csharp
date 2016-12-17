@@ -11,10 +11,15 @@
         {
             if (!IsTurnedOn)
             {
-                return;
+                TurnOnDuck();
             }
 
             IsSwimming = true;
+        }
+
+        private void TurnOnDuck()
+        {
+            IsTurnedOn = true;
         }
     }
 }
