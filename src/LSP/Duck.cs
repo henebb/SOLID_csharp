@@ -1,4 +1,6 @@
-﻿namespace LSP
+﻿using System.Reflection;
+
+namespace LSP
 {
     public interface IAmADuck
     {
@@ -32,10 +34,15 @@
         {
             if (!IsTurnedOn)
             {
-                return;
+                TurnOnDuck();
             }
 
             IsSwimming = true;
+        }
+
+        private void TurnOnDuck()
+        {
+            IsTurnedOn = true;
         }
     }
 }
