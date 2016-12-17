@@ -2,38 +2,45 @@
 {
     public interface IAmADuck
     {
-        void Swim();
-
         /// <summary>
         /// Contract says that IsSwimming should be true if Swim has been called.
         /// </summary>
         bool IsSwimming { get; }
+
+        void Swim();
+
     }
 
     public class OrganicDuck : IAmADuck
     {
+        public bool IsSwimming { get; private set; }
+
         public void Swim()
         {
             IsSwimming = true;
         }
-
-        public bool IsSwimming { get; private set; }
     }
 
     public class ElectricDuck : IAmADuck
     {
+
+        public bool IsSwimming { get; private set; }
+
+        private bool IsTurnedOn { get; set; }
+
         public void Swim()
         {
             if (!IsTurnedOn)
             {
-                return;
+                TurnOnDuck();
             }
 
             IsSwimming = true;
         }
 
-        public bool IsSwimming { get; private set; }
-
-        private bool IsTurnedOn { get; set; }
+        private void TurnOnDuck()
+        {
+            IsTurnedOn = true;
+        }
     }
 }
