@@ -4,10 +4,6 @@ namespace ISP
 {
     public interface IMessage
     {
-        IList<string> ToAddresses { get; set; }
-        // IList<string> BccAddresses { get; set; }
-        string Body { get; set; }
-        string Subject { get; set; }
-        void Send();
+        void Send(IList<string> toAddresses, string body);
     }
 }

@@ -5,15 +5,9 @@ namespace ISP
 {
     public class SmsMessage : IMessage
     {
-        public IList<string> ToAddresses { get; set; }
-        public string Body { get; set; }
-
-        public string Subject { get; set; }
-
-        public void Send()
+        public void Send(IList<string> toAddresses, string body)
         {
-            // Send.
-            // But will not use Subject
+            // Send
         }
     }
 }
