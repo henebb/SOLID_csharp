@@ -7,11 +7,11 @@ namespace DIP
 {
     public class Volvo
     {
-        private readonly B20Engine _engine;
+        private readonly IAmAnEngine _engine;
 
-        public Volvo()
+        public Volvo(IAmAnEngine engine)
         {
-            _engine = new B20Engine();
+            _engine = engine;
         }
 
         public void StartEngine()

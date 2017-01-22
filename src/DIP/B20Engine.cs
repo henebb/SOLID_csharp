@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace DIP
 {
-    public class B20Engine
+    public class B20Engine : IAmAnEngine
     {
         public bool EngineStarted { get; set; }
         public int CurrentSpeed { get; set; }
