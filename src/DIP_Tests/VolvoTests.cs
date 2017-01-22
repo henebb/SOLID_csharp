@@ -8,7 +8,7 @@ namespace DIP_Tests
     public class VolvoTests
     {
         [Fact]
-        public async Task SetSpeed_To100_SetSpeedTo100()
+        public async Task SetSpeed_To100_SetsSpeedTo100()
         {
             // Arrange
             var volvo = new Volvo();
